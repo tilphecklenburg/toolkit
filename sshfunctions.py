@@ -1,8 +1,12 @@
 import paramiko
 hostname = ""
+remote_conn_pre = ''
+remote_conn = '' 
 
 def getciscohostname(ip,username,password):
 	global hostname
+	global remote_conn_pre
+	global remote_conn
 	#initialize paramiko SSH client
 	remote_conn_pre = paramiko.SSHClient() 
 	#------------------------------------------------------------------
