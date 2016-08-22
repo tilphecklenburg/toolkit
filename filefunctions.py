@@ -4,11 +4,17 @@ from openpyxl import Workbook
 
 #-------create a new Excel workbook using OpenPyxl-----------------------
 def createexceldoc(filename):
-	exceldoc = Workbook()
+	filename = Workbook()
 	print "workbook created"
-	excelsheet = exceldoc.create_sheet(title = "Sheet")
-	return excelsheet
+	return filename
 #------------------------------------------------------------------------	
+
+#-------create a new Excel worksheet using OpenPyxl----------------------
+def createexcelsheet(workbookname,sheetname):
+	excelsheet = workbookname.create_sheet(title = sheetname)
+	print "sheet created"
+	return excelsheet
+#------------------------------------------------------------------------
 
 #-------search for string in a .txt file---------------------------------
 def searchtextfile(filename,searchphrase,reportsheet):
