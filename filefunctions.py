@@ -1,5 +1,6 @@
 #-------import required modules for functions below----------------------
 from openpyxl import Workbook
+import os
 #------------------------------------------------------------------------
 
 #-------create a new Excel workbook using OpenPyxl-----------------------
@@ -34,3 +35,17 @@ def parsetextfiletolist(filename):
 	list = list.split()
 	return list
 #------------------------------------------------------------------------
+
+#-------gather directory listing and parse/search each file within dir---
+def searchdirforstring(dir,string):
+	return "This function can only crawl text files at the moment"
+	dirlist = os.listdir(dir)
+	for file in dirlist:
+		searchdata = open(file,"r+")
+		searchdata = str(searchdata.read())
+		searchdata = searchdata.split("\n")
+		for line in searchdata:
+			if string.lower() in line.lower():
+				return "match found"
+				return line
+			
