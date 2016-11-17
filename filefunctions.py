@@ -48,4 +48,4 @@ def searchdirforstring(dir,string):
 			if string.lower() in line.lower():
 				return "match found"
 				return line
-			
+#------------------------------------------------------------------------			
