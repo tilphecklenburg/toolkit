@@ -37,15 +37,27 @@ def parsetextfiletolist(filename):
 #------------------------------------------------------------------------
 
 #-------gather directory listing and parse/search each file within dir---
-def searchdirforstring(dir,string):
-	return "This function can only crawl text files at the moment"
+def searchdirforstring(dir,string,reportsheet):
+	rowcount = 1
+	print "Note: This function can only search text files at the moment"
 	dirlist = os.listdir(dir)
+	reportsheet['A' + str(rowcount)] = "Search string:"
+	reportsheet['B' + str(rowcount)] = "Found in file:"
+	reportsheet['C' + str(rowcount)] = "Config line:"
+	rowcount = 2
 	for file in dirlist:
-		searchdata = open(file,"r+")
-		searchdata = str(searchdata.read())
-		searchdata = searchdata.split("\n")
-		for line in searchdata:
-			if string.lower() in line.lower():
-				return "match found"
-				return line
+		if ".txt" in str(file):
+			searchdata = open(str(dir + file),"r+")
+			searchdata = str(searchdata.read())
+			searchdata = searchdata.split("\n")
+			for line in searchdata:
+				if string.lower() in line.lower():
+					reportsheet['A' + str(rowcount)] = string
+					reportsheet['B' + str(rowcount)] = file
+					reportsheet['C' + str(rowcount)] = line
+					rowcount += 1
+	matches = rowcount - 2
+	print "Search complete - %s matches found - see results.xlsx in toolkit folder" % str(matches)
+	return reportsheet
+	
 #------------------------------------------------------------------------			
