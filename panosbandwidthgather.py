@@ -2,7 +2,7 @@ from panosapifunctions import genapikey, getbandwidth, savebandwidthtocsv
 from twisted.internet import task
 from twisted.internet import reactor
 
-apikey = genapikey("172.23.96.7","adm-longview","1nPr0gr3ss!")
+apikey = genapikey("placeholder","placeholder","placeholder")
 
 def infogather():
 	interfaceinfo = getbandwidth("172.23.96.7",apikey)
