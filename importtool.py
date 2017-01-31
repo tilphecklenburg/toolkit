@@ -1,7 +1,7 @@
 from fmcapifunctions import getdomainuuid
-from fmcapifunctions import postnewobject
+from fmcapifunctions import postnewhostobject
 domainuuid = getdomainuuid("https://192.168.1.65","admin","Imth30n3!")
-csvfile = open("hoststoimport.txt","r+")
+csvfile = open("hoststoimport.csv","r+")
 
 rawtext = csvfile.read()
 
