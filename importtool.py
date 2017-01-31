@@ -7,6 +7,7 @@ Thank you for using the FMC network object import tool, and please note the foll
 
 No support will be provided for this script, it is presented as-is and features may or may not be added in future versions.
 The creator is not responsible for any downtime incurred or misconfiguration applied on customer systems; development, production or otherwise.
+Server certificate verification is DISABLED on this script. If server verification is desired, an alternate script version can be used, but will not be supported.
 
 """
 
@@ -17,6 +18,8 @@ filename = raw_input("""
 Enter name of CSV file to import objects from, should be in the same dir as this EXE,
 and please note the required format:
 " objectname,object value (the address corresponding to the object),a short description for object, and object type (host, network, etc.) " 
+
+Please do not include headers in the CSV file, commas to delimit each column are sufficient as contents of each column is assumed.
 
 CSV File>>>""")
 
