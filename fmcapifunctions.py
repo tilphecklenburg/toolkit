@@ -124,3 +124,49 @@ def gethostobjectuuid(hostobjects, host):
 		if item.get("name") == str(host):
 			return str(item.get("id"))
 	
+def postnewobject(server,domainuuid,username,password):
+	
+	auth_token = ''
+	auth_url = server + "/api/fmc_platform/v1/auth/generatetoken"
+	r = None
+	headers = {'Content-Type': 'application/json'}
+	try:
+		r = requests.post(auth_url, headers=headers, auth=requests.auth.HTTPBasicAuth(username,password), verify=False)
+		#r = requests.post(auth_url, headers=headers, auth=requests.auth.HTTPBasicAuth(username,password), verify='/path/to/ssl_certificate')
+		auth_headers = r.headers
+		auth_token = auth_headers.get('X-auth-access-token', default=None)
+	except:
+		"error occurred, check server name, username and password passed to function"
+		
+	headers['X-auth-access-token']=auth_token
+	api_path = "/api/fmc_config/v1/domain/" + domainuuid + "/object/hosts"    # param
+	url = server + api_path
+	if (url[-1] == '/'):
+		url = url[:-1]
+	post_data = '''
+	{
+		"type":"<object type>"
+		"value":"<object value>"
+		"name":"<any string name>"
+	}
+	'''
+	try:
+		# REST call with SSL verification turned off:
+		r = requests.post(url, data=json.dumps(post_data), headers=headers, verify=False)
+		# REST call with SSL verification turned on:
+		#r = requests.post(url, data=json.dumps(post_data), headers=headers, verify='/path/to/ssl_certificate')
+		status_code = r.status_code
+		resp = r.text
+		print("Status code is: "+str(status_code))
+		if status_code == 201 or status_code == 202:
+			print ("Object creation was successful...")
+			json_resp = json.loads(resp)
+			print(json.dumps(json_resp,sort_keys=True,indent=4, separators=(',', ': ')))
+		else :
+			r.raise_for_status()
+			print ("Error occurred in POST --> "+resp)
+	except requests.exceptions.HTTPError as err:
+		print ("Error in connection --> "+str(err))
+	finally:
+		if r: r.close()
+               
