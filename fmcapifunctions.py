@@ -124,7 +124,7 @@ def gethostobjectuuid(hostobjects, host):
 		if item.get("name") == str(host):
 			return str(item.get("id"))
 	
-def postnewhostobject(server,domainuuid,username,password,objectname,objectvalue,objectdescription):
+def postnewobject(server,domainuuid,username,password,objectname,objectvalue,objectdescription,objecttype):
 	objectname = objectname
 	objectvalue = objectvalue
 	objectdescription = objectdescription
@@ -141,14 +141,23 @@ def postnewhostobject(server,domainuuid,username,password,objectname,objectvalue
 		"error occurred, check server name, username and password passed to function"
 		
 	headers['X-auth-access-token']=auth_token 
-
-	api_path = "/api/fmc_config/v1/domain/" + domainuuid + "/object/hosts"    # param
-	url = server + api_path
+	if str(objecttype).lower() == "host":
+		api_path = "/api/fmc_config/v1/domain/" + domainuuid + "/object/hosts"    # param
+	elif str(objecttype).lower() == "network":
+		api_path = "/api/fmc_config/v1/domain/" + domainuuid + "/object/networks"    # param
+	else:
+		print """Invalid object type entered, only the following types are supported at this time:
+		host (/32 mask)
+		network (all other masks)
+		
+		Please check CSV file for issues and try again.
+		"""
+	url = "https://" + server + api_path
 	if (url[-1] == '/'):
 		url = url[:-1] 
 	post_data = {
 	"name":objectname,
-	"type":"Host",
+	"type":objecttype,
 	"description":objectdescription,
 	"value":objectvalue
 	
