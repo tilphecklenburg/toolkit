@@ -124,8 +124,10 @@ def gethostobjectuuid(hostobjects, host):
 		if item.get("name") == str(host):
 			return str(item.get("id"))
 	
-def postnewobject(server,domainuuid,username,password):
-	
+def postnewhostobject(server,domainuuid,username,password,objectname,objectvalue,objectdescription):
+	objectname = objectname
+	objectvalue = objectvalue
+	objectdescription = objectdescription
 	auth_token = ''
 	auth_url = server + "/api/fmc_platform/v1/auth/generatetoken"
 	r = None
@@ -138,18 +140,19 @@ def postnewobject(server,domainuuid,username,password):
 	except:
 		"error occurred, check server name, username and password passed to function"
 		
-	headers['X-auth-access-token']=auth_token
+	headers['X-auth-access-token']=auth_token 
+
 	api_path = "/api/fmc_config/v1/domain/" + domainuuid + "/object/hosts"    # param
 	url = server + api_path
 	if (url[-1] == '/'):
-		url = url[:-1]
-	post_data = '''
-	{
-		"type":"<object type>"
-		"value":"<object value>"
-		"name":"<any string name>"
-	}
-	'''
+		url = url[:-1] 
+	post_data = {
+	"name":objectname,
+	"type":"Host",
+	"description":objectdescription,
+	"value":objectvalue
+	
+}
 	try:
 		# REST call with SSL verification turned off:
 		r = requests.post(url, data=json.dumps(post_data), headers=headers, verify=False)
