@@ -66,7 +66,7 @@ def getdomainuuid(server,username,password):
 
 def getauthtoken(server,username,password):
 	authtoken = ''
-	auth_url = server + "/api/fmc_platform/v1/auth/generatetoken"
+	auth_url = 'https://' + server + "/api/fmc_platform/v1/auth/generatetoken"
 	r = None
 	headers = {'Content-Type': 'application/json'}
 	try:
@@ -123,15 +123,17 @@ def gethostobjectuuid(hostobjects, host):
 		if item.get("name") == str(host):
 			return str(item.get("id"))
 	
-def postnewobject(server,domainuuid,username,password,objectname,objectvalue,objectdescription,objecttype):
+def postnewobject(server,domainuuid,authtoken,objectname,objectvalue,objectdescription,objecttype):
 	objectname = objectname
 	objectvalue = objectvalue
 	objectdescription = objectdescription
 	domainuuid = domainuuid
-	auth_token = ''
+	authtoken = authtoken
+	
+	"""
 	auth_url = "https://" + server + "/api/fmc_platform/v1/auth/generatetoken"
 	r = None
-	headers = {'Content-Type': 'application/json'}
+	
 	try:
 		r = requests.post(auth_url, headers=headers, auth=requests.auth.HTTPBasicAuth(username,password), verify=False)
 		#r = requests.post(auth_url, headers=headers, auth=requests.auth.HTTPBasicAuth(username,password), verify='/path/to/ssl_certificate')
@@ -141,6 +143,10 @@ def postnewobject(server,domainuuid,username,password,objectname,objectvalue,obj
 		"error occurred, check server name, username and password passed to function"
 		
 	headers['X-auth-access-token']=auth_token 
+	
+	"""
+	
+	headers = {'Content-Type': 'application/json','X-auth-access-token':authtoken}
 	if str(objecttype).lower() == "host":
 		api_path = "/api/fmc_config/v1/domain/" + domainuuid + "/object/hosts"    # param
 	elif str(objecttype).lower() == "network":

@@ -1,6 +1,6 @@
 from fmcapifunctions import getdomainuuid
 from fmcapifunctions import postnewobject
-
+from fmcapifunctions import getauthtoken
 print """
 
 Thank you for using the FMC network object import tool, 
@@ -36,6 +36,7 @@ Enter host name or IP of FMC:
 FMC Host name or IP>>>""")
 
 domainuuid = getdomainuuid(server,username,password)
+authtoken = getauthtoken(server,username,password)
 csvfile = open(filename,"r+")
 print domainuuid
 rawtext = csvfile.read()
@@ -44,5 +45,5 @@ rawtext = rawtext.split("\n")
 
 for line in rawtext:
 	line = line.split(",")
-	postnewobject(server,domainuuid,username,password,str(line[0]),str(line[1]),str(line[2]),str(line[3]))
+	postnewobject(server,domainuuid,authtoken,str(line[0]),str(line[1]),str(line[2]),str(line[3]))
 	
