@@ -52,8 +52,7 @@ def getdevicelist(server,domainuuid,username,password):
 	return devicelist
 
 def getdomainuuid(server,username,password):
-	auth_token = ''
-	auth_url = server + "/api/fmc_platform/v1/auth/generatetoken"
+	auth_url = "https://" + server + "/api/fmc_platform/v1/auth/generatetoken"
 	r = None
 	headers = {'Content-Type': 'application/json'}
 	try:
@@ -128,8 +127,9 @@ def postnewobject(server,domainuuid,username,password,objectname,objectvalue,obj
 	objectname = objectname
 	objectvalue = objectvalue
 	objectdescription = objectdescription
+	domainuuid = domainuuid
 	auth_token = ''
-	auth_url = server + "/api/fmc_platform/v1/auth/generatetoken"
+	auth_url = "https://" + server + "/api/fmc_platform/v1/auth/generatetoken"
 	r = None
 	headers = {'Content-Type': 'application/json'}
 	try:
@@ -153,6 +153,7 @@ def postnewobject(server,domainuuid,username,password,objectname,objectvalue,obj
 		Please check CSV file for issues and try again.
 		"""
 	url = "https://" + server + api_path
+	print url
 	if (url[-1] == '/'):
 		url = url[:-1] 
 	post_data = {

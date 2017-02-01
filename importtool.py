@@ -3,11 +3,17 @@ from fmcapifunctions import postnewobject
 
 print """
 
-Thank you for using the FMC network object import tool, and please note the following:
+Thank you for using the FMC network object import tool, 
+and please note the following:
 
-No support will be provided for this script, it is presented as-is and features may or may not be added in future versions.
-The creator is not responsible for any downtime incurred or misconfiguration applied on customer systems; development, production or otherwise.
-Server certificate verification is DISABLED on this script. If server verification is desired, an alternate script version can be used, but will not be supported.
+No support will be provided for this script, 
+it is presented as-is and features may or may not be added in future versions.
+The creator is not responsible for any downtime incurred or misconfiguration 
+applied on customer systems; development, production or otherwise.
+
+Server certificate verification is DISABLED on this script. 
+
+If server verification is desired, an alternate script version can be used, but will not be supported.
 
 """
 
@@ -28,9 +34,10 @@ server = raw_input("""
 Enter host name or IP of FMC:
 
 FMC Host name or IP>>>""")
+
 domainuuid = getdomainuuid(server,username,password)
 csvfile = open(filename,"r+")
-
+print domainuuid
 rawtext = csvfile.read()
 
 rawtext = rawtext.split("\n")
