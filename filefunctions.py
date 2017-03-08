@@ -57,7 +57,33 @@ def searchdirforstring(dir,string,reportsheet):
 					reportsheet['C' + str(rowcount)] = line
 					rowcount += 1
 	matches = rowcount - 2
-	print "Search complete - %s matches found - see results.xlsx in toolkit folder" % str(matches)
-	return reportsheet
-	
-#------------------------------------------------------------------------			
+	print "Search complete - %s matches found - see" % str(matches) + str(string) + "results.xlsx in toolkit folder" 
+	return (reportsheet, rowcount)
+#------------------------------------------------------------------------		
+
+def searchdirformultistring(dir,hosts,reportsheet):
+	hosts = hosts.read()
+	hosts = hosts.split("\n")
+	rowcount = 1
+	print "Note: This function can only search text files at the moment"
+	dirlist = os.listdir(dir)
+	reportsheet['A' + str(rowcount)] = "Search string:"
+	reportsheet['B' + str(rowcount)] = "Found on device:"
+	reportsheet['C' + str(rowcount)] = "Config line:"
+	rowcount = 2
+	for file in dirlist:
+		if ".txt" in str(file):
+			searchdata = open(str(dir + file),"r+")
+			searchdata = str(searchdata.read())
+			searchdata = searchdata.split("\n")
+			for line in searchdata:
+				for string in hosts:
+					if string.lower() in line.lower():
+						reportsheet['A' + str(rowcount)] = string.upper()
+						reportsheet['B' + str(rowcount)] = file
+						reportsheet['C' + str(rowcount)] = line
+						rowcount += 1
+	matches = rowcount - 2
+	print "Search complete - %s matches found - see results.xlsx in Config Searcher folder" % matches 
+	return (reportsheet, rowcount)
+#------------------------------------------------------------------------				
