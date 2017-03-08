@@ -43,7 +43,14 @@ rawtext = csvfile.read()
 
 rawtext = rawtext.split("\n")
 
+log = open("log.txt","a")
+
 for line in rawtext:
 	line = line.split(",")
-	postnewobject(server,domainuuid,authtoken,str(line[0]),str(line[1]),str(line[2]),str(line[3]))
+	if postnewobject(server,domainuuid,authtoken,str(line[0]),str(line[1]),str(line[2]),str(line[3])) == True:
+		log.write("%s imported successfully" % str(line[0]) + "\n")
+	else:
+		log.write("%s import failed" % str(line[0]) + "\n")
+
+log.close
 	

@@ -127,9 +127,10 @@ def postnewobject(server,domainuuid,authtoken,objectname,objectvalue,objectdescr
 	objectname = objectname
 	objectvalue = objectvalue
 	objectdescription = objectdescription
+	objecttype=objecttype
 	domainuuid = domainuuid
 	authtoken = authtoken
-	
+	print "the object type is %s" % str(objecttype)
 	"""
 	auth_url = "https://" + server + "/api/fmc_platform/v1/auth/generatetoken"
 	r = None
@@ -179,6 +180,7 @@ def postnewobject(server,domainuuid,authtoken,objectname,objectvalue,objectdescr
 		print("Status code is: "+str(status_code))
 		if status_code == 201 or status_code == 202:
 			print ("Object creation was successful...")
+			return True 
 			json_resp = json.loads(resp)
 			print(json.dumps(json_resp,sort_keys=True,indent=4, separators=(',', ': ')))
 		else :
