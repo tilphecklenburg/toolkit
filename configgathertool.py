@@ -2,13 +2,13 @@ from sshfunctions import getiosconf
 
 def gatherconfig(hostlist):
 	for ip in hostlist:
-		success = getiosconf(ip,"mxadmin","optima","Tobag0")
+		success = getiosconf(ip,"","","")
 		if success == False:
-			success = getiosconf(ip,"netmin","optima","d3nv3r!")
+			success = getiosconf(ip,ip,"","","")
 			if success == False:
-				success = getiosconf(ip,"mxadmin","optima","Meth@n0l")
+				success = getiosconf(ip,ip,"","","")
 				if success == False:
-					success = getiosconf(ip,"Admin","optima","P455w0rd!")
+					success = getiosconf(ip,ip,"","","")
 
 hostlist = open("hostlist.txt","r+")
 hostlist = hostlist.read()
