@@ -4,23 +4,29 @@ import os
 #------------------------------------------------------------------------
 
 #-------create a new Excel workbook using OpenPyxl-----------------------
+
+
 def createexceldoc(filename):
 	filename = Workbook()
-	print "workbook created"
+	print("workbook created")
 	return filename
 #------------------------------------------------------------------------	
 
 #-------create a new Excel worksheet using OpenPyxl----------------------
-def createexcelsheet(workbookname,sheetname):
+
+
+def createexcelsheet(workbookname, sheetname):
 	excelsheet = workbookname.create_sheet(title = sheetname)
-	print "sheet created"
+	print("sheet created")
 	return excelsheet
 #------------------------------------------------------------------------
 
 #-------search for string in a .txt file---------------------------------
-def searchtextfile(filename,searchphrase,reportsheet):
+
+
+def searchtextfile(filename, searchphrase, reportsheet):
 	rowcount = 1
-	file = open(filename,"r+")
+	file = open(filename, "r+")
 	for line in file.readlines():
 		if searchphrase in line:
 			reportsheet['A' + str(rowcount)] = searchphrase
@@ -29,6 +35,8 @@ def searchtextfile(filename,searchphrase,reportsheet):
 #------------------------------------------------------------------------	
 
 #-------open text file and turn into a list------------------------------
+
+
 def parsetextfiletolist(filename):
 	file = open(filename,"r+")
 	list = file.read()
@@ -37,9 +45,11 @@ def parsetextfiletolist(filename):
 #------------------------------------------------------------------------
 
 #-------gather directory listing and parse/search each file within dir---
-def searchdirforstring(dir,string,reportsheet):
+
+
+def searchdirforstring(dir, string, reportsheet):
 	rowcount = 1
-	print "Note: This function can only search text files at the moment"
+	print("Note: This function can only search text files at the moment")
 	dirlist = os.listdir(dir)
 	reportsheet['A' + str(rowcount)] = "Search string:"
 	reportsheet['B' + str(rowcount)] = "Found in file:"
@@ -57,15 +67,18 @@ def searchdirforstring(dir,string,reportsheet):
 					reportsheet['C' + str(rowcount)] = line
 					rowcount += 1
 	matches = rowcount - 2
-	print "Search complete - %s matches found - see" % str(matches) + str(string) + "results.xlsx in toolkit folder" 
+	print("Search complete - %s matches found - see" % str(matches) + str(string) + "results.xlsx in toolkit folder") 
 	return (reportsheet, rowcount)
 #------------------------------------------------------------------------		
 
-def searchdirformultistring(dir,hosts,reportsheet):
+#-------gather directory listing and parse/search each file within dir for multiple strings provided---
+
+
+def searchdirformultistring(dir, hosts, reportsheet):
 	hosts = hosts.read()
 	hosts = hosts.split("\n")
 	rowcount = 1
-	print "Note: This function can only search text files at the moment"
+	print("Note: This function can only search text files at the moment")
 	dirlist = os.listdir(dir)
 	reportsheet['A' + str(rowcount)] = "Search string:"
 	reportsheet['B' + str(rowcount)] = "Found on device:"
@@ -84,6 +97,6 @@ def searchdirformultistring(dir,hosts,reportsheet):
 						reportsheet['C' + str(rowcount)] = line
 						rowcount += 1
 	matches = rowcount - 2
-	print "Search complete - %s matches found - see results.xlsx in Config Searcher folder" % matches 
+	print("Search complete - %s matches found - see results.xlsx in Config Searcher folder" % matches) 
 	return (reportsheet, rowcount)
 #------------------------------------------------------------------------				
