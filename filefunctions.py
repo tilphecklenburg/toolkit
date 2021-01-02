@@ -68,7 +68,7 @@ def searchdirforstring(dir, string, reportsheet):
 					rowcount += 1
 	matches = rowcount - 2
 	print("Search complete - %s matches found - see" % str(matches) + str(string) + "results.xlsx in toolkit folder") 
-	return (reportsheet, rowcount)
+	return reportsheet, rowcount
 #------------------------------------------------------------------------		
 
 #-------gather directory listing and parse/search each file within dir for multiple strings provided---
@@ -98,5 +98,5 @@ def searchdirformultistring(dir, hosts, reportsheet):
 						rowcount += 1
 	matches = rowcount - 2
 	print("Search complete - %s matches found - see results.xlsx in Config Searcher folder" % matches) 
-	return (reportsheet, rowcount)
+	return reportsheet, rowcount
 #------------------------------------------------------------------------				
