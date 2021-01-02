@@ -1,11 +1,13 @@
 import paramiko
+import time
 hostname = ""
 remote_conn_pre = ''
 remote_conn = '' 
-import time
 
 #can be used to start up a paramiko ssh session with a device
-def sshconnect(ip,username,password):
+
+
+def sshconnect(ip, username, password):
 	global remote_conn_pre
 	global remote_conn
 	#initialize paramiko SSH client
@@ -24,7 +26,9 @@ def sshconnect(ip,username,password):
 #------------------------------------------------------------------
 
 #can be used to gather the cisco device's hostname
-def getciscohostname(ip,username,password):
+
+
+def getciscohostname(ip, username, password):
 	global hostname
 	global remote_conn_pre
 	global remote_conn
@@ -49,7 +53,9 @@ def getciscohostname(ip,username,password):
 #------------------------------------------------------------------
 
 #gather cisco IOS based device's running config and return it in a text file
-def getiosconf(ip,username,enablepw,password):
+
+
+def getiosconf(ip, username, enablepw, password):
 	global hostname
 	global remote_conn_pre
 	global remote_conn
@@ -61,7 +67,7 @@ def getiosconf(ip,username,enablepw,password):
 		remote_conn_pre.set_missing_host_key_policy(paramiko.AutoAddPolicy()) 
 		#------------------------------------------------------------------
 		#open connection to the device
-		remote_conn_pre.connect(ip,username=username,password=password,look_for_keys=False,allow_agent=False)
+		remote_conn_pre.connect(ip, username=username, password=password, look_for_keys=False, allow_agent=False)
 		#------------------------------------------------------------------
 		#invoke a shell object to send commands once SSH session is established
 		remote_conn = remote_conn_pre.invoke_shell() 
