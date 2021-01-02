@@ -37,14 +37,14 @@ report.save(filename = "search results - %s.xlsx" % searchstring)
 #----------------------------------------------------------------------------------------
 """
 
-hosts = open("searchstrings.txt","r+")
+hosts = open("searchstrings.txt", "r+")
 
 directory = "C:/scripts/Config Searcher/Config Files/"
 	
 report = filefunctions.createexceldoc("report")
 
-reportsheet = filefunctions.createexcelsheet(report,"results")
+reportsheet = filefunctions.createexcelsheet(report, "results")
 
-reportsheet, rowcount = filefunctions.searchdirformultistring(directory,hosts,reportsheet)
+reportsheet, rowcount = filefunctions.searchdirformultistring(directory, hosts, reportsheet)
 
-report.save(filename = "results.xlsx")
+report.save(filename="results.xlsx")
