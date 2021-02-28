@@ -1,6 +1,7 @@
 #-------import required modules for functions below----------------------
-from openpyxl import Workbook
+from openpyxl import Workbook, load_workbook
 import os
+import datetime
 #------------------------------------------------------------------------
 
 #-------create a new Excel workbook using OpenPyxl-----------------------
@@ -16,7 +17,7 @@ def createexceldoc(filename):
 
 
 def createexcelsheet(workbookname, sheetname):
-	excelsheet = workbookname.create_sheet(title = sheetname)
+	excelsheet = workbookname.create_sheet(title=sheetname)
 	print("sheet created")
 	return excelsheet
 #------------------------------------------------------------------------
@@ -99,4 +100,52 @@ def searchdirformultistring(dir, hosts, reportsheet):
 	matches = rowcount - 2
 	print("Search complete - %s matches found - see results.xlsx in Config Searcher folder" % matches) 
 	return reportsheet, rowcount
-#------------------------------------------------------------------------				
+#------------------------------------------------------------------------
+
+
+#-------take exceldoc, excelsheet, ipcolumn and provide ping output in resultscolumn--------------
+def pinghostsinexceldoc(exceldoc, excelsheet, ipcolumn, resultscolumn):
+	#make sure we have all the required variables, gather them if not
+	if exceldoc=='':
+		exceldoc=input("Please provide the name of the Excel doc: ")
+	if excelsheet=='':
+		excelsheet=input("Please provide the name of the Excel sheet with IPs: ")
+	if ipcolumn=='':
+		ipcolumn=input("Please provide the column with IP addresses in it: ")
+	if resultscolumn=='':
+		resultscolumn=input("Please provide the column that results should be stored in: ")
+	try:
+		workbook = load_workbook(exceldoc)
+	except:
+		print("Unable to load workbook, make sure script is running in same directory as XLSX file")
+	try:
+		worksheet = workbook.get_sheet_by_name(excelsheet)
+	except:
+		print("Unable to load worksheet")
+	rowcount = 1
+	print('trying some pings 1')
+	try:
+		for cell in worksheet[ipcolumn]:
+			cell_length = len(str(cell.value))
+			print(cell_length)
+			if rowcount > 1 and int(cell_length) < 16:
+				print('attempting pings to %s' % str(cell.value))
+				result = os.system('ping -w 1000 -n 1 ' + str(cell.value))
+				print(result)
+				if result == 0:
+					print('%s is reachable' % str(cell.value))
+					worksheet[str(resultscolumn) + str(rowcount)] = 'Y - last response %s' % str(datetime.datetime.now())
+				else:
+					print('%s is not reachable' % str(cell.value))
+					worksheet[str(resultscolumn) + str(rowcount)] = 'N - last attempt %s' % str(datetime.datetime.now())
+				rowcount += 1
+			else:
+				print('something wrong with cell, skipping. ensure that a single IP has been specified per cell in selected column')
+				rowcount += 1
+	except:
+		workbook.save('AltaPACS - Master Device List.xlsx')
+		workbook.close()
+#------------------------------------------------------------------------
+	workbook.save('AltaPACS - Master Device List.xlsx')
+	workbook.close()
+
