@@ -60,7 +60,7 @@ for child in root:
                             csventry.append(protocol)
                             action = log.find('action').text
                             csventry.append(action)
-                            rule=log.find('rule').text
+                            rule = log.find('rule').text
                             csventry.append(rule)
                             csvwriter.writerow(csventry)
 
