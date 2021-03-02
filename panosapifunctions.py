@@ -4,10 +4,10 @@ from time import gmtime, strftime
 import os
 
 def genapikey(devip,username,password):
-	panapikey = requests.get("https://" + devip + "/api/?type=keygen&user=" + username + "&password=" + password, verify=False)
+	panapikey = requests.get("https://" + devip + "/api/?type=keygen&user=" + username + "&password=" + password, verify = False)
 	apikey = str(panapikey.text)
 	apikey = apikey.replace("<response status = 'success'><result><key>","")
-	apikey = apikey.replace("</key></result></response>","")
+	apikey = apikey.replace("</key></result></response>", "")
 	return apikey
 	
 def getifaceinfo(devip,apikey):
@@ -30,10 +30,13 @@ def savebandwidthtocsv(interfaceinfo,csvfilename):
 	stats = str(response_time) + str(interfaceinfo)
 	stats = str(stats)
 	stats = " ".join(stats.splitlines())
-	print stats
+	print(stats)
 	bandwidth_stats_file = csvfilename
 	with open(bandwidth_stats_file,'a') as myFile:
 		myFile.write(stats + "\n")
 		myFile.flush()
 		os.fsync(myFile.fileno())
 		myFile.close()
+'''
+gettrafficlogs(query,):
+'''
