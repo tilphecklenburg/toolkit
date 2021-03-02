@@ -134,18 +134,20 @@ def pinghostsinexceldoc(exceldoc, excelsheet, ipcolumn, resultscolumn):
 				print(result)
 				if result == 0:
 					print('%s is reachable' % str(cell.value))
-					worksheet[str(resultscolumn) + str(rowcount)] = 'Y - last response %s' % str(datetime.datetime.now())
+					t = (datetime.datetime.now()).strftime('%Y-%m-%d')
+					worksheet[str(resultscolumn) + str(rowcount)] = 'Y - last response %s' % str(t)
 				else:
 					print('%s is not reachable' % str(cell.value))
-					worksheet[str(resultscolumn) + str(rowcount)] = 'N - last attempt %s' % str(datetime.datetime.now())
+					t = (datetime.datetime.now()).strftime('%Y-%m-%d')
+					worksheet[str(resultscolumn) + str(rowcount)] = 'N - last attempt %s' % str(t)
 				rowcount += 1
 			else:
 				print('something wrong with cell, skipping. ensure that a single IP has been specified per cell in selected column')
 				rowcount += 1
 	except:
-		workbook.save('AltaPACS - Master Device List.xlsx')
+		workbook.save(exceldoc)
 		workbook.close()
 #------------------------------------------------------------------------
-	workbook.save('AltaPACS - Master Device List.xlsx')
+	workbook.save(exceldoc)
 	workbook.close()
 
