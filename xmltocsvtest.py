@@ -3,12 +3,14 @@ import csv
 import datetime
 import panosapifunctions
 import requests
+from time import sleep
+
 #-------------------------create API key-------------------------------------------------------------------------
 apikey = panosapifunctions.genapikey('10.200.5.10', 'admin', 'wirefire911')
 print('got api key: %s' % str(apikey))
 
 #-------------------------run search and get job ID--------------------------------------------------------------
-jobidquerystring = 'https://10.200.5.10/api/?key=' + apikey + '&type=log&log-type=traffic&query=(rule eq intrazone-default)'
+jobidquerystring = 'https://10.200.5.10/api/?key=' + apikey + '&type=log&log-type=traffic&nlogs=5000&query=(rule eq intrazone-default)'
 response = requests.get(jobidquerystring, verify=False)
 jobidstring = str(response.text)
 jobidxmlfile = open('jobidxml', 'w')
@@ -20,6 +22,9 @@ for child in root:
     if child.tag == 'result':
         jobid = child.find('job').text
 print('job id: %s' % jobid)
+
+print('sleeping for 10 seconds to let job do its thing')
+sleep(10)
 
 #-------------------------get logs xml---------------------------------------------------------------------------
 logquerystring = 'https://10.200.5.10/api/?key=' + apikey + '&type=log&action=get&job-id=' + jobid
@@ -33,7 +38,7 @@ logsxmlfile.close()
 tree = ET.parse("logsxml")
 root = tree.getroot()
 t = (datetime.datetime.now()).strftime('%Y-%m-%d')
-trafficlogcsv = open('trafficlogcsv  - %s.csv' % t, 'w')
+trafficlogcsv = open('trafficlogcsv  - %s.csv' % t, 'w', newline='')
 csvwriter = csv.writer(trafficlogcsv)
 count = 0
 for child in root:
